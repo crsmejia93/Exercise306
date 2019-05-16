@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Album Form</title>
+</head>
+<body>
+    <form th:action="@{/process}" th:object="${album}" method="POST">
+        <input type="hidden" th:field="*{id}"/>
+        <label for="title">Album Title: </label>
+        <input id="title" type="text" th:field="*{title}"/><br/>
+        <label for="artist">Artist: </label>
+        <input id="artist" type="text" th:field="*{artist}"/><br/>
+        <label for="year">Year Released: </label>
+        <input id="year" type="text" th:field="*{year}"/><br/>
+        <label for="quantity">Number of songs: </label>
+        <input id="quantity" type="text" th:field="*{num_songs}"/><br/>
+        <br/>
+        <input type="submit" value="Create"/>
+    </form>
+</body>
+</html>
