@@ -7,7 +7,6 @@
 <body>
 <nav>
     <a href="/addalbum">Add An Album</a>
-    <a href="/addsong">Add A Song</a>
 </nav>
 <table th:each="album: ${albums}">
     <tr>
@@ -20,8 +19,8 @@
         <td th:inline="text">[[${album.artist}]]</td>
         <td th:inline="text">[[${album.year}]]</td>
         <td>
-            <a >Songs</a>
-            <a>Delete</a>
+            <a th:href="@{/songs/{id}(id=${album.id})}">Songs</a>
+            <a th:href="@{/delete/{id}(id=${album.id})}">Delete</a>
         </td>
     </tr>
 </table>

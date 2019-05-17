@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -39,28 +38,39 @@ public class HomeController {
 //        return "songform";
 //    }
 
-    @PostMapping("/process")
-    public String processAlbum(@Valid Album album, BindingResult result, Model model){
-        model.addAttribute("album", album);
-        if(result.hasErrors()){
-            return "albumform";
-        }
+    @GetMapping("/process")
+    public String processAlbum(@ModelAttribute Album album, Model model){
         Set<Song> songs = new HashSet<>();
         for(int i = 0; i<album.getNum_songs(); i++){
             songs.add(new Song());
         }
         album.setSongs(songs);
         albumRepository.save(album);
-        return "/songform";
+        model.addAttribute("album", album);
+        return "songform";
     }
 
     @PostMapping("/processsong")
-    public String processAlbum(@Valid Song song, BindingResult result, Model model){
-        model.addAttribute("song", song);
+    public String processAlbum(@Valid Album album, BindingResult result, Model model){
+        for(Song song: album.songs){
+            songRepository.save(song);
+        }
         if(result.hasErrors()){
             return "songform";
         }
-        songRepository.save(song);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/songs/{id}")
+    public String showSongs(@PathVariable("id") long id, Model model){
+        model.addAttribute("album",albumRepository.findById(id).get());
+        model.addAttribute("songs", songRepository.findAll());
+        return "show";
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteAlbum(@PathVariable("id") long id){
+        albumRepository.deleteById(id);
         return "redirect:/";
     }
 }

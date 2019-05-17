@@ -5,8 +5,19 @@
     <title>Song Form</title>
 </head>
 <body>
-    <form th:action="@{/processsong}">
-
+    <form th:action="@{/processsong}" th:object="${album}" method="post">
+        <h2 th:inline="text">[[${album.title}]]</h2>
+        <h3 th:inline="text">[[${album.artist}]]</h3>
+        <ol>
+            <th:block th:each="song : ${album.songs}">
+                <li>
+                    <input type="hidden" th:fields="${song.id}"/>
+                    Song Name: <input type="text" th:fields="${song.title}"/>
+                    Duration: <input type="text" th:fields="${song.duration}"/>
+                </li>
+            </th:block>
+        </ol>
+        <input type="submit" value="Submit"/>
     </form>
 </body>
 </html>

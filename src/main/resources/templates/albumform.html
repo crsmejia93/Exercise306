@@ -5,7 +5,7 @@
     <title>Album Form</title>
 </head>
 <body>
-    <form th:action="@{/process}" th:object="${album}" method="POST">
+    <form th:action="@{/process}" th:object="${album}" method="get">
         <input type="hidden" th:field="*{id}"/>
         <label for="title">Album Title: </label>
         <input id="title" type="text" th:field="*{title}"/><br/>
